@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LoadMoreComponent } from './components/load-more-component/load-more.component';
@@ -11,13 +10,13 @@ import { SidebarComponent } from './components/sidebar-component/sidebar.compone
     standalone: true,
     templateUrl: './app.component.html',
     imports: [
-        CommonModule,
         RouterOutlet,
         SidebarComponent,
         NavbarComponent,
         PostItemComponent,
         LoadMoreComponent,
     ],
+    providers: [],
     styles: [],
 })
 export class AppComponent {

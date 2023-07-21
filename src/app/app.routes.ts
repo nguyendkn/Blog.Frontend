@@ -15,4 +15,11 @@ export const routes: Routes = [
                 (m) => m.AboutMe
             ),
     },
+    {
+        path: 'post/:id',
+        loadComponent: () =>
+            import('./features/post-feature/post.component').then(
+                (m) => m.PostComponent
+            ),
+    },
 ];
