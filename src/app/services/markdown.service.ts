@@ -9,7 +9,7 @@ export class MarkdownService {
     constructor() {
         marked.use(
             gfmHeadingId({
-                prefix: 'app',
+                prefix: 'app-',
             })
         );
         marked.setOptions({});
