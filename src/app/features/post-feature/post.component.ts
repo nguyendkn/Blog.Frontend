@@ -1,6 +1,7 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MarkdownService } from 'src/app/services/markdown.service';
 
@@ -11,10 +12,15 @@ import { MarkdownService } from 'src/app/services/markdown.service';
     imports: [CommonModule, HttpClientModule],
 })
 export class PostComponent implements OnInit {
+    rawHtmlString: string = '';
+    sanitizedHtml: SafeHtml = {};
+
     constructor(
         private readonly activatedRoute: ActivatedRoute,
         private readonly markdownService: MarkdownService,
-        private readonly httpClient: HttpClient
+        private readonly httpClient: HttpClient,
+        private readonly sanitizer: DomSanitizer,
+        @Inject(PLATFORM_ID) private platformId: Object
     ) {}
 
     ngOnInit(): void {
@@ -31,7 +37,12 @@ export class PostComponent implements OnInit {
                 .subscribe((markdownText) => {
                     const content =
                         this.markdownService.convertToHtml(markdownText);
-                    console.log(content);
+                    if (isPlatformBrowser(this.platformId)) {
+                        this.sanitizedHtml =
+                            this.sanitizer.bypassSecurityTrustHtml(content);
+                    } else {
+                        this.sanitizedHtml = this.rawHtmlString;
+                    }
                 });
             console.log(markdownFile);
         });
