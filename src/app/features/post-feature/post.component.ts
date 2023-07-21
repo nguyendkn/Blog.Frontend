@@ -13,7 +13,7 @@ import { MarkdownService } from 'src/app/services/markdown.service';
 })
 export class PostComponent implements OnInit {
     rawHtmlString: string = '';
-    sanitizedHtml: SafeHtml = {};
+    sanitizedHtml?: SafeHtml = undefined;
 
     constructor(
         private readonly activatedRoute: ActivatedRoute,
